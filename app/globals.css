@@ -1,26 +1,1053 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 30 10% 95%;
+    --foreground: 20 10% 20%;
+
+    --card: 30 10% 95%;
+    --card-foreground: 20 10% 20%;
+
+    --popover: 30 10% 95%;
+    --popover-foreground: 20 10% 20%;
+
+    --primary: 359 87% 73%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 20 5% 75%;
+    --secondary-foreground: 20 10% 20%;
+
+    --muted: 20 5% 75%;
+    --muted-foreground: 20 10% 40%;
+
+    --accent: 20 5% 75%;
+    --accent-foreground: 20 10% 20%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 20 5% 80%;
+    --input: 20 5% 80%;
+    --ring: 20 10% 20%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 20 10% 10%;
+    --foreground: 0 0% 98%;
+
+    --card: 20 10% 10%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 20 10% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 359 87% 73%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 20 5% 40%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 20 5% 40%;
+    --muted-foreground: 20 5% 75%;
+
+    --accent: 20 5% 40%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 20 5% 30%;
+    --input: 20 5% 30%;
+    --ring: 20 5% 75%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.text-outline {
+  -webkit-text-stroke: 1px hsl(var(--foreground));
+  color: transparent;
+}
+
+.text-outline-white {
+  -webkit-text-stroke: 1px white;
+  color: transparent;
+}
+
+.text-outline-primary {
+  -webkit-text-stroke: 1px hsl(var(--primary));
+  color: transparent;
+}
+
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -1px 0 hsl(var(--primary));
+  animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: 1px 0 hsl(var(--primary));
+  animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+  0% {
+    clip-path: inset(20% 0 80% 0);
+  }
+  20% {
+    clip-path: inset(60% 0 40% 0);
+  }
+  40% {
+    clip-path: inset(40% 0 60% 0);
+  }
+  60% {
+    clip-path: inset(80% 0 20% 0);
+  }
+  80% {
+    clip-path: inset(10% 0 90% 0);
+  }
+  100% {
+    clip-path: inset(30% 0 70% 0);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0% {
+    clip-path: inset(15% 0 85% 0);
+  }
+  20% {
+    clip-path: inset(55% 0 45% 0);
+  }
+  40% {
+    clip-path: inset(35% 0 65% 0);
+  }
+  60% {
+    clip-path: inset(75% 0 25% 0);
+  }
+  80% {
+    clip-path: inset(5% 0 95% 0);
+  }
+  100% {
+    clip-path: inset(25% 0 75% 0);
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: hsl(var(--primary));
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.custom-cursor.hover {
+  width: 60px;
+  height: 60px;
+  background-color: hsl(var(--primary) / 0.5);
+}
+
+.reveal-text {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s, transform 0.8s;
+}
+
+.reveal-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.staggered-reveal > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.staggered-reveal.visible > *:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.staggered-reveal.visible > *:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.staggered-reveal.visible > *:nth-child(3) {
+  transition-delay: 0.3s;
+}
+.staggered-reveal.visible > *:nth-child(4) {
+  transition-delay: 0.4s;
+}
+.staggered-reveal.visible > *:nth-child(5) {
+  transition-delay: 0.5s;
+}
+.staggered-reveal.visible > *:nth-child(6) {
+  transition-delay: 0.6s;
+}
+
+.staggered-reveal.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.tilt-on-hover {
+  transition: transform 0.3s ease;
+}
+
+.tilt-on-hover:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+}
+
+.distort-on-hover {
+  transition: filter 0.3s ease;
+}
+
+.distort-on-hover:hover {
+  filter: contrast(1.2) saturate(1.2);
+}
+
+.skew-on-hover {
+  transition: transform 0.3s ease;
+}
+
+.skew-on-hover:hover {
+  transform: skew(-5deg, 0);
+}
+
+.brutalist-border {
+  border: 2px solid hsl(var(--foreground));
+  box-shadow: 5px 5px 0 hsl(var(--foreground));
+}
+
+.brutalist-border-primary {
+  border: 2px solid hsl(var(--primary));
+  box-shadow: 5px 5px 0 hsl(var(--primary));
+}
+
+.brutalist-card {
+  background-color: hsl(var(--background));
+  border: 2px solid hsl(var(--foreground));
+  box-shadow: 5px 5px 0 hsl(var(--foreground));
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.brutalist-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 hsl(var(--foreground));
+}
+
+.brutalist-button {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: 2px solid hsl(var(--foreground));
+  box-shadow: 3px 3px 0 hsl(var(--foreground));
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.brutalist-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 hsl(var(--foreground));
+}
+
+.brutalist-button:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 hsl(var(--foreground));
+}
+
+.scroll-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 5px;
+  background-color: hsl(var(--primary));
+  z-index: 1000;
+  width: 0%;
+}
+
+.chaotic-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, minmax(50px, auto));
+  gap: 15px;
+}
+
+.chaotic-grid > * {
+  border: 2px solid hsl(var(--foreground));
+}
+
+.chaotic-grid > *:nth-child(odd) {
+  background-color: hsl(var(--primary) / 0.1);
+}
+
+.chaotic-grid > *:nth-child(even) {
+  background-color: hsl(var(--secondary) / 0.1);
+}
+
+.chaotic-grid > *:hover {
+  z-index: 10;
+}
+
+.diagonal-split {
+  position: relative;
+  overflow: hidden;
+}
+
+.diagonal-split::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(135deg, hsl(var(--primary)) 50%, transparent 50%);
+  z-index: -1;
+}
+
+.clip-path-polygon {
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+}
+
+.clip-path-circle {
+  clip-path: circle(50% at 50% 50%);
+}
+
+.clip-path-triangle {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.rotated-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.text-shadow-glow {
+  text-shadow: 0 0 5px hsl(var(--primary) / 0.5), 0 0 10px hsl(var(--primary) / 0.5), 0 0 15px hsl(var(--primary) / 0.5);
+}
+
+.text-shadow-offset {
+  text-shadow: 3px 3px 0 hsl(var(--foreground));
+}
+
+.text-shadow-multiple {
+  text-shadow: 2px 2px 0 hsl(var(--primary)), 4px 4px 0 hsl(var(--secondary)), 6px 6px 0 hsl(var(--foreground));
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--secondary)));
+  z-index: -1;
+}
+
+.gradient-border::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: hsl(var(--background));
+  z-index: -1;
+}
+
+.animated-background {
+  background: linear-gradient(270deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.1), hsl(var(--primary) / 0.1));
+  background-size: 200% 200%;
+  animation: gradient-animation 8s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.scroll-x {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+}
+
+.scroll-snap-x > * {
+  scroll-snap-align: start;
+}
+
+.scroll-y {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scroll-y::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-snap-y {
+  scroll-snap-type: y mandatory;
+}
+
+.scroll-snap-y > * {
+  scroll-snap-align: start;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+}
+
+.sticky-side {
+  position: sticky;
+  top: 100px;
+}
+
+.parallax-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  transform: translateY(0);
+  transition: transform 0.1s ease-out;
+}
+
+.split-text-container {
+  overflow: hidden;
+}
+
+.split-text {
+  display: inline-block;
+  transform: translateY(100%);
+  transition: transform 0.5s ease;
+}
+
+.split-text.visible {
+  transform: translateY(0);
+}
+
+.char-by-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.char-by-char.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.word-by-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.word-by-word.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.line-by-line {
+  display: block;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.line-by-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.image-hover-zoom {
+  overflow: hidden;
+}
+
+.image-hover-zoom img {
+  transition: transform 0.5s ease;
+}
+
+.image-hover-zoom:hover img {
+  transform: scale(1.1);
+}
+
+.image-hover-shift {
+  overflow: hidden;
+}
+
+.image-hover-shift img {
+  transition: transform 0.5s ease;
+}
+
+.image-hover-shift:hover img {
+  transform: translateX(10px);
+}
+
+.image-hover-rotate {
+  overflow: hidden;
+}
+
+.image-hover-rotate img {
+  transition: transform 0.5s ease;
+}
+
+.image-hover-rotate:hover img {
+  transform: rotate(5deg);
+}
+
+.image-hover-filter {
+  overflow: hidden;
+}
+
+.image-hover-filter img {
+  transition: filter 0.5s ease;
+}
+
+.image-hover-filter:hover img {
+  filter: saturate(1.5) contrast(1.2);
+}
+
+.image-hover-blur {
+  overflow: hidden;
+}
+
+.image-hover-blur img {
+  transition: filter 0.5s ease;
+}
+
+.image-hover-blur:hover img {
+  filter: blur(5px);
+}
+
+.image-hover-grayscale {
+  overflow: hidden;
+}
+
+.image-hover-grayscale img {
+  transition: filter 0.5s ease;
+}
+
+.image-hover-grayscale:hover img {
+  filter: grayscale(100%);
+}
+
+.image-hover-sepia {
+  overflow: hidden;
+}
+
+.image-hover-sepia img {
+  transition: filter 0.5s ease;
+}
+
+.image-hover-sepia:hover img {
+  filter: sepia(100%);
+}
+
+.image-hover-invert {
+  overflow: hidden;
+}
+
+.image-hover-invert img {
+  transition: filter 0.5s ease;
+}
+
+.image-hover-invert:hover img {
+  filter: invert(100%);
+}
+
+.image-hover-hue-rotate {
+  overflow: hidden;
+}
+
+.image-hover-hue-rotate img {
+  transition: filter 0.5s ease;
+}
+
+.image-hover-hue-rotate:hover img {
+  filter: hue-rotate(90deg);
+}
+
+.image-hover-brightness {
+  overflow: hidden;
+}
+
+.image-hover-brightness img {
+  transition: filter 0.5s ease;
+}
+
+.image-hover-brightness:hover img {
+  filter: brightness(1.5);
+}
+
+.image-hover-contrast {
+  overflow: hidden;
+}
+
+.image-hover-contrast img {
+  transition: filter 0.5s ease;
+}
+
+.image-hover-contrast:hover img {
+  filter: contrast(1.5);
+}
+
+.image-hover-opacity {
+  overflow: hidden;
+}
+
+.image-hover-opacity img {
+  transition: opacity 0.5s ease;
+}
+
+.image-hover-opacity:hover img {
+  opacity: 0.5;
+}
+
+.image-hover-shadow {
+  overflow: hidden;
+}
+
+.image-hover-shadow img {
+  transition: filter 0.5s ease;
+}
+
+.image-hover-shadow:hover img {
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
+.image-hover-border {
+  overflow: hidden;
+}
+
+.image-hover-border img {
+  transition: border 0.5s ease;
+}
+
+.image-hover-border:hover img {
+  border: 5px solid hsl(var(--primary));
+}
+
+.image-hover-outline {
+  overflow: hidden;
+}
+
+.image-hover-outline img {
+  transition: outline 0.5s ease;
+}
+
+.image-hover-outline:hover img {
+  outline: 5px solid hsl(var(--primary));
+}
+
+.image-hover-transform {
+  overflow: hidden;
+}
+
+.image-hover-transform img {
+  transition: transform 0.5s ease;
+}
+
+.image-hover-transform:hover img {
+  transform: perspective(500px) rotateY(15deg);
+}
+
+.image-hover-clip-path {
+  overflow: hidden;
+}
+
+.image-hover-clip-path img {
+  transition: clip-path 0.5s ease;
+}
+
+.image-hover-clip-path:hover img {
+  clip-path: circle(50% at 50% 50%);
+}
+
+.image-hover-mix-blend-mode {
+  overflow: hidden;
+}
+
+.image-hover-mix-blend-mode img {
+  transition: mix-blend-mode 0.5s ease;
+}
+
+.image-hover-mix-blend-mode:hover img {
+  mix-blend-mode: multiply;
+}
+
+.image-hover-backdrop-filter {
+  overflow: hidden;
+}
+
+.image-hover-backdrop-filter img {
+  transition: backdrop-filter 0.5s ease;
+}
+
+.image-hover-backdrop-filter:hover img {
+  backdrop-filter: blur(5px);
+}
+
+.image-hover-background-blend-mode {
+  overflow: hidden;
+}
+
+.image-hover-background-blend-mode img {
+  transition: background-blend-mode 0.5s ease;
+}
+
+.image-hover-background-blend-mode:hover img {
+  background-blend-mode: multiply;
+}
+
+.image-hover-background-color {
+  overflow: hidden;
+}
+
+.image-hover-background-color img {
+  transition: background-color 0.5s ease;
+}
+
+.image-hover-background-color:hover img {
+  background-color: hsl(var(--primary) / 0.5);
+}
+
+.image-hover-background-image {
+  overflow: hidden;
+}
+
+.image-hover-background-image img {
+  transition: background-image 0.5s ease;
+}
+
+.image-hover-background-image:hover img {
+  background-image: linear-gradient(45deg, hsl(var(--primary) / 0.5), hsl(var(--secondary) / 0.5));
+}
+
+.image-hover-background-size {
+  overflow: hidden;
+}
+
+.image-hover-background-size img {
+  transition: background-size 0.5s ease;
+}
+
+.image-hover-background-size:hover img {
+  background-size: 200% 200%;
+}
+
+.image-hover-background-position {
+  overflow: hidden;
+}
+
+.image-hover-background-position img {
+  transition: background-position 0.5s ease;
+}
+
+.image-hover-background-position:hover img {
+  background-position: center center;
+}
+
+.image-hover-background-repeat {
+  overflow: hidden;
+}
+
+.image-hover-background-repeat img {
+  transition: background-repeat 0.5s ease;
+}
+
+.image-hover-background-repeat:hover img {
+  background-repeat: no-repeat;
+}
+
+.image-hover-background-attachment {
+  overflow: hidden;
+}
+
+.image-hover-background-attachment img {
+  transition: background-attachment 0.5s ease;
+}
+
+.image-hover-background-attachment:hover img {
+  background-attachment: fixed;
+}
+
+.image-hover-background-origin {
+  overflow: hidden;
+}
+
+.image-hover-background-origin img {
+  transition: background-origin 0.5s ease;
+}
+
+.image-hover-background-origin:hover img {
+  background-origin: content-box;
+}
+
+.image-hover-background-clip {
+  overflow: hidden;
+}
+
+.image-hover-background-clip img {
+  transition: background-clip 0.5s ease;
+}
+
+.image-hover-background-clip:hover img {
+  background-clip: content-box;
+}
+
+.image-hover-mask-image {
+  overflow: hidden;
+}
+
+.image-hover-mask-image img {
+  transition: mask-image 0.5s ease;
+}
+
+.image-hover-mask-image:hover img {
+  mask-image: linear-gradient(45deg, black 50%, transparent 50%);
+}
+
+.image-hover-mask-size {
+  overflow: hidden;
+}
+
+.image-hover-mask-size img {
+  transition: mask-size 0.5s ease;
+}
+
+.image-hover-mask-size:hover img {
+  mask-size: 200% 200%;
+}
+
+.image-hover-mask-position {
+  overflow: hidden;
+}
+
+.image-hover-mask-position img {
+  transition: mask-position 0.5s ease;
+}
+
+.image-hover-mask-position:hover img {
+  mask-position: center center;
+}
+
+.image-hover-mask-repeat {
+  overflow: hidden;
+}
+
+.image-hover-mask-repeat img {
+  transition: mask-repeat 0.5s ease;
+}
+
+.image-hover-mask-repeat:hover img {
+  mask-repeat: no-repeat;
+}
+
+.image-hover-mask-origin {
+  overflow: hidden;
+}
+
+.image-hover-mask-origin img {
+  transition: mask-origin 0.5s ease;
+}
+
+.image-hover-mask-origin:hover img {
+  mask-origin: content-box;
+}
+
+.image-hover-mask-clip {
+  overflow: hidden;
+}
+
+.image-hover-mask-clip img {
+  transition: mask-clip 0.5s ease;
+}
+
+.image-hover-mask-clip:hover img {
+  mask-clip: content-box;
+}
+
+.image-hover-mask-composite {
+  overflow: hidden;
+}
+
+.image-hover-mask-composite img {
+  transition: mask-composite 0.5s ease;
+}
+
+.image-hover-mask-composite:hover img {
+  mask-composite: add;
+}
+
+.image-hover-mask-mode {
+  overflow: hidden;
+}
+
+.image-hover-mask-mode img {
+  transition: mask-mode 0.5s ease;
+}
+
+.image-hover-mask-mode:hover img {
+  mask-mode: luminance;
+}
+
+.image-hover-mask-type {
+  overflow: hidden;
+}
+
+.image-hover-mask-type img {
+  transition: mask-type 0.5s ease;
+}
+
+.image-hover-mask-type:hover img {
+  mask-type: luminance;
+}
+
+.floating-element {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.shake-on-hover {
+  transition: transform 0.3s ease;
+}
+
+.shake-on-hover:hover {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-10px);
+  }
+  40% {
+    transform: translateX(10px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
